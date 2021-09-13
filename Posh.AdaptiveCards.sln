@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Posh.AdaptiveCards", "Posh.AdaptiveCards\Posh.AdaptiveCards.csproj", "{D3D01170-E6E9-4E80-88A8-81B4DF013E13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Posh.AdaptiveCards.Models", "Posh.AdaptiveCards.Models\Posh.AdaptiveCards.Models.csproj", "{C8572B60-A649-4687-ADB9-C56C04D89807}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Posh.AdaptiveCards.Models", "Posh.AdaptiveCards.Models\Posh.AdaptiveCards.Models.csproj", "{C8572B60-A649-4687-ADB9-C56C04D89807}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleCards", "SampleCards", "{38C37C74-7A89-48E3-9D48-B1A91FFD1BCB}"
+	ProjectSection(SolutionItems) = preProject
+		SampleCards\acl.data.json = SampleCards\acl.data.json
+		SampleCards\acl.json = SampleCards\acl.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,6 +8,6 @@ namespace Posh.AdaptiveCards.Models
     public class TeamsMessage
     {
         public string Type { get; } = "message";
-        public IEnumerable<TeamsAdaptiveCard> Attachments { get; } = new Collection<TeamsAdaptiveCard>();
+        public IList<TeamsAdaptiveCard> Attachments { get; } = new Collection<TeamsAdaptiveCard>();
     }
 }

@@ -1,0 +1,97 @@
+{
+  "ACL": {
+    "Path": "Microsoft.PowerShell.Core\\FileSystem::E:\\Posh.AdaptiveCards\\Posh.AdaptiveCards\\bin\\Debug\\netstandard2.0\\publish",
+    "Owner": "COMPUTER\\parithon",
+    "Group": "COMPUTER\\Developers",
+    "Access": [
+      {
+        "FileSystemRights": "FullControl",
+        "AccessControlType": "Allow",
+        "IdentityReference": {
+          "Value": "BUILTIN\\Administrators"
+        },
+        "IsInherited": true,
+        "InheritanceFlags": "None",
+        "PropagationFlags": "None"
+      },
+      {
+        "FileSystemRights": 268435456,
+        "AccessControlType": "Allow",
+        "IdentityReference": {
+          "Value": "BUILTIN\\Administrators"
+        },
+        "IsInherited": true,
+        "InheritanceFlags": "ContainerInherit, ObjectInherit",
+        "PropagationFlags": "InheritOnly"
+      },
+      {
+        "FileSystemRights": "FullControl",
+        "AccessControlType": "Allow",
+        "IdentityReference": {
+          "Value": "NT AUTHORITY\\SYSTEM"
+        },
+        "IsInherited": true,
+        "InheritanceFlags": "None",
+        "PropagationFlags": "None"
+      },
+      {
+        "FileSystemRights": 268435456,
+        "AccessControlType": "Allow",
+        "IdentityReference": {
+          "Value": "NT AUTHORITY\\SYSTEM"
+        },
+        "IsInherited": true,
+        "InheritanceFlags": "ContainerInherit, ObjectInherit",
+        "PropagationFlags": "InheritOnly"
+      },
+      {
+        "FileSystemRights": "Modify, Synchronize",
+        "AccessControlType": "Allow",
+        "IdentityReference": {
+          "Value": "NT AUTHORITY\\Authenticated Users"
+        },
+        "IsInherited": true,
+        "InheritanceFlags": "None",
+        "PropagationFlags": "None"
+      },
+      {
+        "FileSystemRights": -536805376,
+        "AccessControlType": "Allow",
+        "IdentityReference": {
+          "Value": "NT AUTHORITY\\Authenticated Users"
+        },
+        "IsInherited": true,
+        "InheritanceFlags": "ContainerInherit, ObjectInherit",
+        "PropagationFlags": "InheritOnly"
+      },
+      {
+        "FileSystemRights": "ReadAndExecute, Synchronize",
+        "AccessControlType": "Allow",
+        "IdentityReference": {
+          "Value": "BUILTIN\\Users"
+        },
+        "IsInherited": true,
+        "InheritanceFlags": "None",
+        "PropagationFlags": "None"
+      },
+      {
+        "FileSystemRights": -1610612736,
+        "AccessControlType": "Allow",
+        "IdentityReference": {
+          "Value": "BUILTIN\\Users"
+        },
+        "IsInherited": true,
+        "InheritanceFlags": "ContainerInherit, ObjectInherit",
+        "PropagationFlags": "InheritOnly"
+      }
+    ]
+  },
+  "FolderInfo": {
+    "FullName": "E:\\Posh.AdaptiveCards\\Posh.AdaptiveCards\\bin\\Debug\\netstandard2.0\\publish",
+    "CreationTime": "2021-09-12T14:32:05.4984146-07:00",
+    "LastWriteTime": "2021-09-12T14:32:05.6964474-07:00",
+    "LastAccessTime": "2021-09-12T17:36:38.2320251-07:00",
+    "BaseName": "publish",
+    "Attributes": "Directory"
+  }
+}

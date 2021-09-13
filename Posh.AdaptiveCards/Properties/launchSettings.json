@@ -3,7 +3,10 @@
     "Posh.AdaptiveCards": {
       "commandName": "Executable",
       "executablePath": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-      "workingDirectory": "$(TargetDir)\\publish"
+      "workingDirectory": "$(TargetDir)\\publish",
+      "environmentVariables": {
+        "WebhookUrl": "https://drevlan.webhook.office.com/webhookb2/72b2c54f-941b-491d-9dfd-43c544045fdd@2c33093a-bb98-49d3-be4d-24d8fbb92a82/IncomingWebhook/6cf6a5f0d632497687f01e0a8eae2022/77aab0ac-c763-412e-a5d0-8ff60e5ef1ca"
+      }
     }
   }
 }
