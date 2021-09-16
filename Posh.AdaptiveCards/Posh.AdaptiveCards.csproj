@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Posh.AdaptiveCards.psd1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Posh.AdaptiveCards.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="2.7.2" />
     <PackageReference Include="AdaptiveCards.Rendering.Html" Version="2.7.2" />
     <PackageReference Include="AdaptiveCards.Templating" Version="1.2.1" />
