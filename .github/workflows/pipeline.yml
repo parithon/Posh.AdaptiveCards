@@ -9,9 +9,13 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: true
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - uses: actions/checkout@main
       - name: Set required PowerShell modules
@@ -29,11 +33,12 @@ jobs:
         if: steps.cacher.outputs.cache-hit != 'true'
         uses: potatoqualitee/psmodulecache@v3.5
       - name: Test PowerShell Core
-        shell: pwsh
         run: |
           Write-Output $PSVersionTable
+          dotnet --info
       - name: Test PowerShell
         if: matrix.os == 'windows-latest'
         shell: powershell
         run: |
           Write-Output $PSVersionTable
+          dotnet --info
