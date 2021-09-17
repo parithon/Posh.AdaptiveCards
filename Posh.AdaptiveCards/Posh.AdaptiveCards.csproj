@@ -7,11 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Posh.AdaptiveCards.psd1" />
+    <None Remove="ConvertTo-AdaptiveCardPayload.Tests.ps1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Posh.AdaptiveCards.psd1">
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Posh.AdaptiveCards.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ConvertTo-AdaptiveCardPayload.Tests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -21,7 +27,7 @@
     <PackageReference Include="AdaptiveCards.Rendering.Html" Version="2.7.2" />
     <PackageReference Include="AdaptiveCards.Templating" Version="1.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="PowerShellStandard.Library" Version="5.1.0-preview-06">
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>

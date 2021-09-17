@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Posh.AdaptiveCards.Models;
-using Posh.AdaptiveCards.Module.Helpers;
+using Posh.AdaptiveCards.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Management.Automation;
 using System.Net.Http;
 using System.Text;

@@ -3,7 +3,7 @@ using AdaptiveCards.Templating;
 using System.Collections.Generic;
 using System.Management.Automation;
 
-namespace Posh.AdaptiveCards.Module.Helpers
+namespace Posh.AdaptiveCards.Helpers
 {
     public struct AdaptiveCardProcessor
     {

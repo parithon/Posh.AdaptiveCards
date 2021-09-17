@@ -45,7 +45,7 @@
                       },
                       {
                           "type": "TextBlock",
-                          "text": "${formatDateTime($root.FolderInfo.CreationTime,'MM-dd-yyyy hh:mm:ss t')}",
+                          "text": "${formatDateTime($root.FolderInfo.CreationTime,'MM-dd-yyyy hh:mm:ss tt')}",
                           "wrap": false,
                           "spacing": "None"
                       }
@@ -76,7 +76,7 @@
                       },
                       {
                           "type": "TextBlock",
-                          "text": "${formatDateTime($root.FolderInfo.LastWriteTime,'MM-dd-yyyy hh:mm:ss t')}",
+                          "text": "${formatDateTime($root.FolderInfo.LastWriteTime,'MM-dd-yyyy hh:mm:ss tt')}",
                           "wrap": false,
                           "spacing": "None"
                       }
@@ -107,7 +107,7 @@
                       },
                       {
                           "type": "TextBlock",
-                          "text": "${formatDateTime($root.FolderInfo.LastAccessTime,'MM-dd-yyyy hh:mm:ss t')}",
+                          "text": "${formatDateTime($root.FolderInfo.LastAccessTime,'MM-dd-yyyy hh:mm:ss tt')}",
                           "wrap": false,
                           "spacing": "None"
                       }
