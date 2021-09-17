@@ -1,0 +1,152 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.2",
+  "body": [
+      {
+          "type": "TextBlock",
+          "text": "Access Control List for '${$root.FolderInfo.BaseName}'",
+          "wrap": true,
+          "size": "Large",
+          "weight": "Bolder"
+      },
+      {
+          "type": "TextBlock",
+          "text": "${$root.FolderInfo.FullName}",
+          "spacing": "None",
+          "isSubtle": true,
+          "wrap": false
+      },
+      {
+          "type": "ColumnSet",
+          "columns": [
+              {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "text": "Attributes",
+                          "wrap": true,
+                          "weight": "Bolder",
+                          "isSubtle": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "${$root.FolderInfo.Attributes}",
+                          "spacing": "None"
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "Created",
+                          "wrap": true,
+                          "weight": "Bolder",
+                          "isSubtle": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "${formatDateTime($root.FolderInfo.CreationTime,'MM-dd-yyyy hh:mm:ss tt')}",
+                          "wrap": false,
+                          "spacing": "None"
+                      }
+                  ]
+              },
+              {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "text": "Owner",
+                          "wrap": true,
+                          "weight": "Bolder",
+                          "isSubtle": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "${$root.ACL.Owner}",
+                          "spacing": "None"
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "Modified",
+                          "wrap": true,
+                          "weight": "Bolder",
+                          "isSubtle": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "${formatDateTime($root.FolderInfo.LastWriteTime,'MM-dd-yyyy hh:mm:ss tt')}",
+                          "wrap": false,
+                          "spacing": "None"
+                      }
+                  ]
+              },
+              {
+                  "type": "Column",
+                  "width": "stretch",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "wrap": true,
+                          "text": "Group",
+                          "weight": "Bolder",
+                          "isSubtle": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "${$root.ACL.Group}",
+                          "spacing": "None"
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "Last Accessed",
+                          "wrap": true,
+                          "weight": "Bolder",
+                          "isSubtle": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "${formatDateTime($root.FolderInfo.LastAccessTime,'MM-dd-yyyy hh:mm:ss tt')}",
+                          "wrap": false,
+                          "spacing": "None"
+                      }
+                  ]
+              }
+          ]
+      }
+  ],
+  "actions": [
+      {
+          "type": "Action.ShowCard",
+          "title": "Show Access Control List",
+          "card": {
+              "type": "AdaptiveCard",
+              "body": [
+                  {
+                      "type": "FactSet",
+                      "$data": "${ACL.Access}",
+                      "facts": [
+                          {
+                              "title": "Identity Reference",
+                              "value": "${IdentityReference.Value}"
+                          },
+                          {
+                              "title": "File System Rights",
+                              "value": "${FileSystemRights} "
+                          },
+                          {
+                              "title": "Inheritance Flags",
+                              "value": "${InheritanceFlags}"
+                          },
+                          {
+                              "title": "Propagation Flags",
+                              "value": "${PropagationFlags}"
+                          }
+                      ]
+                  }
+              ]
+          }
+      }
+  ]
+}

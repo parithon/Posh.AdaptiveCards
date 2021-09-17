@@ -1,0 +1,64 @@
+name: Build Module
+
+on:
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@main
+      - name: Set required PowerShell modules
+        id: psmodulecache
+        uses: potatoqualitee/psmodulecache@v3.5
+        with:
+          modules-to-cache: Pester, PSScriptAnalyzer, InvokeBuild, platyPS
+      - name: Setup PowerShell module cache
+        id: cacher
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.psmodulecache.outputs.modulepath }}
+          key: ${{ steps.psmodulecache.outputs.keygen }}
+      - name: Install PowerShell modules
+        if: steps.cacher.outputs.cache-hit != 'true'
+        uses: potatoqualitee/psmodulecache@v3.5
+      - name: Test PowerShell Core
+        run: |
+          Write-Output $PSVersionTable
+          dotnet --info
+      - name: Test PowerShell
+        if: matrix.os == 'windows-latest'
+        shell: powershell
+        run: |
+          Write-Output $PSVersionTable
+          dotnet --info
+      - name: Setup Nuget cache
+        uses: actions/cache@v2
+        id: cachernuget
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Restore Nuget packages
+        if: steps.cachernuget.outputs.cache-hit != 'true'
+        run: dotnet restore
+      - name: Build Project
+        run: dotnet build -c Release
+      - name: Test Project
+        run: dotnet test --no-build -c Release
+      - name: Publish Project
+        run : dotnet publish -c Release
+      # - name: Test with Pester
+      #   run: |
+      #     Invoke-Pester -Path .\Posh.AdaptiveCards\bin\Release\**\*.Tests.ps1 -CI

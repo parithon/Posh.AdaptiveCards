@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Posh.AdaptiveCards", "Posh.AdaptiveCards\Posh.AdaptiveCards.csproj", "{D3D01170-E6E9-4E80-88A8-81B4DF013E13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Posh.AdaptiveCards.Models", "Posh.AdaptiveCards.Models\Posh.AdaptiveCards.Models.csproj", "{C8572B60-A649-4687-ADB9-C56C04D89807}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleCards", "SampleCards", "{38C37C74-7A89-48E3-9D48-B1A91FFD1BCB}"
+	ProjectSection(SolutionItems) = preProject
+		SampleCards\acl.data.json = SampleCards\acl.data.json
+		SampleCards\acl.payload.json = SampleCards\acl.payload.json
+		SampleCards\acl.template.json = SampleCards\acl.template.json
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Posh.AdaptiveCards.Tests", "Posh.AdaptiveCards.Tests\Posh.AdaptiveCards.Tests.csproj", "{82555043-CBC7-47D0-93F8-6F3CD85651F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3D01170-E6E9-4E80-88A8-81B4DF013E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3D01170-E6E9-4E80-88A8-81B4DF013E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3D01170-E6E9-4E80-88A8-81B4DF013E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3D01170-E6E9-4E80-88A8-81B4DF013E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8572B60-A649-4687-ADB9-C56C04D89807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8572B60-A649-4687-ADB9-C56C04D89807}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8572B60-A649-4687-ADB9-C56C04D89807}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8572B60-A649-4687-ADB9-C56C04D89807}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82555043-CBC7-47D0-93F8-6F3CD85651F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82555043-CBC7-47D0-93F8-6F3CD85651F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82555043-CBC7-47D0-93F8-6F3CD85651F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82555043-CBC7-47D0-93F8-6F3CD85651F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D3F4C36-DA24-4942-B67C-3DD237852C99}
+	EndGlobalSection
+EndGlobal
