@@ -1,4 +1,4 @@
-Import-Module .\Posh.AdaptiveCards.dll
+Import-Module $PSScriptRoot\Posh.AdaptiveCards.dll
 
 Describe "ConvertTo-AdaptiveCradPayload" {
   BeforeAll {

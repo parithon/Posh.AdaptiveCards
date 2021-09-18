@@ -61,4 +61,6 @@ jobs:
         run : dotnet publish -c Release
       - name: Test with Pester
         run: |
-          Invoke-Pester -Path .\Posh.AdaptiveCards\bin\Release\**\*.Tests.ps1 -CI
+          Push-Location -Path .\Posh\AdaptiveCards\bin\Release\netstandard2.0\publish
+          Invoke-Pester -CI
+          Pop-Location
