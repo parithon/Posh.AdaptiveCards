@@ -7,10 +7,11 @@ on:
 
 jobs:
   report:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        tests: [dotnet-results, pester-results]
     runs-on: unbuntu-latest
-    matrix:
-      os: [ubuntu-latest, macos-latest, windows-latest]
-      tests: [dotnet-results, pester-results]
     steps:
       - uses: dorny/test-reporter@v1
         with:
