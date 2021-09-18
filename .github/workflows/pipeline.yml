@@ -62,4 +62,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-      Get-ChildItem -Recurse
+        Get-ChildItem -Recurse
