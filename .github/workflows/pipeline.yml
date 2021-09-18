@@ -1,8 +1,10 @@
 name: Build Module
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
+  pull_request:
+    branches: [ main, dev ]
 
   workflow_dispatch:
 
@@ -54,3 +56,10 @@ jobs:
           Push-Location -Path .\Posh.AdaptiveCards\bin\Release\netstandard2.0\publish
           Invoke-Pester -CI
           Pop-Location
+  package:
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+      Get-ChildItem -Recurse
