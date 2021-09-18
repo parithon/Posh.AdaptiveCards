@@ -59,6 +59,6 @@ jobs:
         run: dotnet test --no-build -c Release
       - name: Publish Project
         run : dotnet publish -c Release
-      # - name: Test with Pester
-      #   run: |
-      #     Invoke-Pester -Path .\Posh.AdaptiveCards\bin\Release\**\*.Tests.ps1 -CI
+      - name: Test with Pester
+        run: |
+          Invoke-Pester -Path .\Posh.AdaptiveCards\bin\Release\**\*.Tests.ps1 -CI
