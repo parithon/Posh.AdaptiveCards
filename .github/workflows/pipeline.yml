@@ -1,8 +1,10 @@
 name: Build Module
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
+  pull_request:
+    branches: [ main, dev ]
 
   workflow_dispatch:
 
@@ -46,11 +48,63 @@ jobs:
       - name: Build Project
         run: dotnet build -c Release
       - name: Test Project
-        run: dotnet test --no-build -c Release
+        run: dotnet test --no-build -c Release --logger trx --results-directory "Test-Results-${{ matrix.os }}"
       - name: Publish Project
         run : dotnet publish -c Release
       - name: Test with Pester
         run: |
-          Push-Location -Path .\Posh.AdaptiveCards\bin\Release\netstandard2.0\publish
-          Invoke-Pester -CI
-          Pop-Location
+          Import-Module Pester
+          $configuration = [PesterConfiguration]::Default
+          $configuration.Run.Exit = $false
+          $configuration.Run.Path = Convert-Path -Path .\Posh.AdaptiveCards\bin\Release\netstandard2.0\publish
+          $configuration.TestResult.Enabled = $true
+          $configuration.TestResult.OutputFormat = 'JUnitXml'
+          $configuration.TestResult.OutputPath = "testResults-${{ matrix.os }}\testResults.xml"
+          Invoke-Pester -Configuration $configuration
+          Get-ChildItem -Recurse
+      - name: Upload dotnet test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: dotnet-results-${{ matrix.os }}
+          path: Test-Results-${{ matrix.os }}
+      - name: Upload pester test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: pester-results-${{ matrix.os }}
+          path: testResults-${{ matrix.os }}
+  package:
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@main
+      - name: Set required PowerShell modules
+        id: psmodulecache
+        uses: potatoqualitee/psmodulecache@v3.5
+        with:
+          modules-to-cache: Pester, PSScriptAnalyzer, InvokeBuild, platyPS
+      - name: Setup PowerShell module cache
+        id: cacher
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.psmodulecache.outputs.modulepath }}
+          key: ${{ steps.psmodulecache.outputs.keygen }}
+      - name: Install PowerShell modules
+        if: steps.cacher.outputs.cache-hit != 'true'
+        uses: potatoqualitee/psmodulecache@v3.5
+      - name: Setup Nuget cache
+        uses: actions/cache@v2
+        id: cachernuget
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Check current folder structure
+        run: |
+          Get-ChildItem -Recurse
