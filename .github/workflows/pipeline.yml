@@ -101,7 +101,7 @@ jobs:
       - name: Publish module to Local PSRepository
         run: Publish-Module -Path ./Posh.AdaptiveCards -Repository dist
       - name: Upload nuget package
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
             name: posh-adaptivecards-nuget
             path: dist/*.nuget
