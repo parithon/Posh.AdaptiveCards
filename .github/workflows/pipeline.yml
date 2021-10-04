@@ -66,6 +66,8 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
           files: 'testResults*/**/*.xml'
+          report_individual_runs: "true"
+          check_name: ${{ matrix.os }}
       - name: Upload publish artifact
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: actions/upload-artifact@v2
