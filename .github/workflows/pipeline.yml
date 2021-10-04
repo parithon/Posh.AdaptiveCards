@@ -61,7 +61,6 @@ jobs:
           $configuration.TestResult.OutputFormat = 'JUnitXml'
           $configuration.TestResult.OutputPath = "testResults-${{ matrix.os }}\testResults.xml"
           Invoke-Pester -Configuration $configuration
-          Get-ChildItem -Recurse
       - name: Upload dotnet test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
@@ -74,6 +73,12 @@ jobs:
         with:
           name: pester-results-${{ matrix.os }}
           path: testResults-${{ matrix.os }}
+      - name: Upload publish artifact
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: publish-module
+          path: /Posh.AdaptiveCards/bin/Release/netstandard2.0/publish
   package:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     needs: build
@@ -82,29 +87,10 @@ jobs:
       run:
         shell: pwsh
     steps:
-      - uses: actions/checkout@main
-      - name: Set required PowerShell modules
-        id: psmodulecache
-        uses: potatoqualitee/psmodulecache@v3.5
+      - uses: actions/download-artifact@v2
         with:
-          modules-to-cache: Pester, PSScriptAnalyzer, InvokeBuild, platyPS
-      - name: Setup PowerShell module cache
-        id: cacher
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.psmodulecache.outputs.modulepath }}
-          key: ${{ steps.psmodulecache.outputs.keygen }}
-      - name: Install PowerShell modules
-        if: steps.cacher.outputs.cache-hit != 'true'
-        uses: potatoqualitee/psmodulecache@v3.5
-      - name: Setup Nuget cache
-        uses: actions/cache@v2
-        id: cachernuget
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+          name: publish-module
+          path: Posh.AdaptiveCards
       - name: Check current folder structure
         run: |
           Get-ChildItem -Recurse
