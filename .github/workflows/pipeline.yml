@@ -97,7 +97,7 @@ jobs:
       - name: Register Local PSRepository
         run: |
           New-Item -Type Directory -Path dist
-          Register-PSRepository -Name dist -Path (Convert-Path ./dist)
+          Register-PSRepository -Name dist -SourceLocation (Convert-Path ./dist) -PublishLocation (Convert-Path ./dist)
       - name: Publish module to Local PSRepository
         run: Publish-Module -Path ./Posh.AdaptiveCards -Repository dist
       - name: Upload nuget package
