@@ -78,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: publish-module
-          path: /Posh.AdaptiveCards/bin/Release/netstandard2.0/publish
+          path: Posh.AdaptiveCards/bin/Release/netstandard2.0/publish
   package:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     needs: build
