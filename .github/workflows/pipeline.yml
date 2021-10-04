@@ -79,6 +79,24 @@ jobs:
         with:
           name: publish-module
           path: Posh.AdaptiveCards/bin/Release/netstandard2.0/publish
+  testresults:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        tests: [dotnet-results, pester-results]
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dorny/test-reporter@v1
+        with: 
+          artifact: ${{ matrix.tests }}-${{ matrix.os }}
+          name: ${{ matrix.tests }}-${{ matrix.os }}
+          path: '*.xml'
+          reporter: 'dotnet-trx'
+      - uses: joutvhu/delete-artifact@v1
+        with:
+          name: ${{ matrix.tests }}-${{ matrix.os }}
   package:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     needs: build
