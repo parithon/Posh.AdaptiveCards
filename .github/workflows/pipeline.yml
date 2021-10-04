@@ -92,6 +92,13 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
           files: artifacts/**/*.xml
+  cleanup-test-results:
+    if: ${{ always() }}
+    needs: build-test-publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete Artifacts
+        uses: joutvhu/delete-artifact@v1
   package:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     needs: build-test-publish
