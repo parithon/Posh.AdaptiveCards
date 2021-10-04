@@ -89,6 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: dorny/test-reporter@v1
+        continue-on-error: true
         with: 
           artifact: ${{ matrix.tests }}-${{ matrix.os }}
           name: ${{ matrix.tests }}-${{ matrix.os }}
