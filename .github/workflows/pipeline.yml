@@ -66,13 +66,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: dotnet-results-${{ matrix.os }}
-          path: Test-Results-${{ matrix.os }}
+          path: dotnet-testResults-${{ matrix.os }}
       - name: Upload pester test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: pester-results-${{ matrix.os }}
-          path: testResults-${{ matrix.os }}
+          path: pester-testResults-${{ matrix.os }}
       - name: Upload publish artifact
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: actions/upload-artifact@v2
