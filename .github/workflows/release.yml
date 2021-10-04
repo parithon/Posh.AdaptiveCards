@@ -2,9 +2,8 @@ name: Release Module
 
 on:
   push:
-    branches: [ releases ]
-
-  workflow_dispatch:
+    tags: 
+      - 'v*'
 
 jobs:
   build-publish:
