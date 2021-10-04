@@ -93,12 +93,19 @@ jobs:
         with:
           files: artifacts/**/*.xml
   cleanup-test-results:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        tests: [dotnet-results,pester-results]
     if: ${{ always() }}
-    needs: build-test-publish
+    needs: publish-test-results
     runs-on: ubuntu-latest
     steps:
       - name: Delete Artifacts
         uses: joutvhu/delete-artifact@v1
+        with:
+          name: ${{ matrix.tests }}-${{ matrix.os }}
   package:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     needs: build-test-publish
