@@ -106,32 +106,3 @@ jobs:
         uses: joutvhu/delete-artifact@v1
         with:
           name: ${{ matrix.tests }}-${{ matrix.os }}
-  package:
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-    needs: build-test-publish
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: pwsh
-    steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: publish-module
-          path: Posh.AdaptiveCards
-      - uses: joutvhu/delete-artifact@v1
-        with:
-          name: publish-module
-      - name: Register Local PSRepository
-        run: |
-          New-Item -Type Directory -Path dist
-          Register-PSRepository -Name dist -SourceLocation (Convert-Path ./dist) -PublishLocation (Convert-Path ./dist)
-      - name: Publish module to Local PSRepository
-        run: Publish-Module -Path ./Posh.AdaptiveCards -Repository dist
-      - name: Check current folder structure
-        run: |
-          Get-ChildItem -Recurse
-      - name: Upload nuget package
-        uses: actions/upload-artifact@v2
-        with:
-            name: posh-adaptivecards-nuget
-            path: dist/*.nupkg

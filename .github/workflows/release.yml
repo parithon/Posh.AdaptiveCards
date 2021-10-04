@@ -1,0 +1,65 @@
+name: Release Module
+
+on:
+  push:
+    branches: [ releases ]
+
+  workflow_dispatch:
+
+jobs:
+  build-publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@main
+      - name: Setup Nuget cache
+        uses: actions/cache@v2
+        id: cachernuget
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Restore Nuget packages
+        if: steps.cachernuget.outputs.cache-hit != 'true'
+        run: dotnet restore
+      - name: Build Project
+        run: dotnet build -c Release
+      - name: Publish Project
+        run : dotnet publish -c Release
+      - name: Upload publish artifact
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: publish-module
+          path: Posh.AdaptiveCards/bin/Release/netstandard2.0/publish
+  package:
+    needs: build-publish
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: publish-module
+          path: Posh.AdaptiveCards
+      - uses: joutvhu/delete-artifact@v1
+        with:
+          name: publish-module
+      - name: Register Local PSRepository
+        run: |
+          New-Item -Type Directory -Path dist
+          Register-PSRepository -Name dist -SourceLocation (Convert-Path ./dist) -PublishLocation (Convert-Path ./dist)
+      - name: Publish module to Local PSRepository
+        run: Publish-Module -Path ./Posh.AdaptiveCards -Repository dist
+      - name: Check current folder structure
+        run: |
+          Get-ChildItem -Recurse
+      - name: Upload nuget package
+        uses: actions/upload-artifact@v2
+        with:
+            name: posh-adaptivecards-nuget
+            path: dist/*.nupkg
