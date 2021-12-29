@@ -1,0 +1,54 @@
+name: Preview Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow-dispatch:
+
+jobs:
+  build:
+    name: Build + Package Artifacts
+    runs-on: ubuntu-latest
+    outputs:
+      PackageVersion: ${{ steps.versions.outputs.CloudBuildNumber }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Setup GIT versioning
+      uses: dotnet/nbgv@0.4.0
+      id: versions
+      with:
+        setAllVars: true
+    - name: Restore packages
+      run: |
+        dotnet restore
+    - name: Build project
+      run: |
+        dotnet build --configuration Release --nologo --no-restore
+    - name: Test project
+      run: |
+        dotnet test --configuration Release --no-build --nologo
+    - name: Publish project
+      run: |
+        dotnet publish .\Posh.AdaptiveCards --configuration Release --no-build --nologo
+    - name: Generate Module Manifest
+      run: |
+        New-ModuleManifest `
+          -Path .\Posh.AdaptiveCards\bin\Release\netstandard2.0\publish\Posh.AdaptiveCards.psd1 `
+          -Guid 'b9718a3d-91c0-4004-84e1-3a0c642dcf07' `
+          -Author 'Anthony Conrad <parithon@outlook.com>' `
+          -Company 'Parithon' `
+          -RootModule 'Posh.AdaptiveCards' `
+          -Description 'A PowerShell module which can be used to create AdaptiveCards to send to various clients. To develop an AdaptiveCard, you can use the individual cmdlets or go to https://adaptivecards.io/designer and design a template to format the card.' `
+          -ModuleVersion $env:NBGV_Version `
+          -PowerShellVersion '7.0' `
+          -ProjectUri 'https://github.com/parithon/Posh.AdaptiveCards' `
+          -CmdletsToExport @('ConvertTo-AdaptiveCardPayload','Send-AdaptiveCard') `
+          -Prerelease $env:NBGV_SemVer2
