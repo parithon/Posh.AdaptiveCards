@@ -1,0 +1,131 @@
+name: Preview Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build + Package Artifacts
+    runs-on: ubuntu-latest
+    outputs:
+      CloudBuildNumber: ${{ steps.versions.outputs.CloudBuildNumber }}
+      changelog: ${{ steps.build_changelog.outputs.changelog }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    #- name: Build Changelog
+    #  uses: parithon/release-changelog-builder-action@v2.7.1
+    #  id: build_changelog
+    #  env:
+    #    GITHUB_TOKEN: ${{ github.token }}
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Setup GIT versioning
+      uses: dotnet/nbgv@v0.4.0
+      id: versions
+      with:
+        setAllVars: true
+    - name: Restore packages
+      run: |
+        dotnet restore
+    - name: Build project
+      run: |
+        dotnet build --configuration Release --nologo --no-restore
+    - name: Test project
+      run: |
+        dotnet test --configuration Release --no-build --nologo
+    - name: Publish project
+      run: |
+        dotnet publish ./Posh.AdaptiveCards --configuration Release --no-build --nologo --output ./Posh.AdaptiveCards/bin/Release/Posh.AdaptiveCards
+    - name: Generate Module Manifest
+      shell: pwsh
+      run: |
+        New-ModuleManifest -Path ./Posh.AdaptiveCards/bin/Release/Posh.AdaptiveCards/Posh.AdaptiveCards.psd1 -Guid 'b9718a3d-91c0-4004-84e1-3a0c642dcf07' -Author 'Anthony Conrad <parithon@outlook.com>' -Company 'Parithon' -RootModule 'Posh.AdaptiveCards.dll' -Description 'A PowerShell module which can be used to create AdaptiveCards to send to various clients. To develop an AdaptiveCard, you can use the individual cmdlets or go to https://adaptivecards.io/designer and design a template to format the card.' -ModuleVersion $env:NBGV_SimpleVersion -PowerShellVersion '7.0' -ProjectUri 'https://github.com/parithon/Posh.AdaptiveCards' -CmdletsToExport 'ConvertTo-AdaptiveCardPayload','Send-AdaptiveCard' -Prerelease $env:NBGV_PrereleaseVersion
+    - name: Upload module folder
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifacts
+        path: ./Posh.AdaptiveCards/bin/Release/Posh.AdaptiveCards/*
+        
+  create-preview-release:
+    name: Create Github Pre-Release
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: artifacts
+        path: Posh.AdaptiveCards
+        
+    - name: Package artifacts
+      shell: pwsh
+      run: |
+        New-Item -Name publish -ItemType Directory
+        Register-PSRepository -Name TempRepo -SourceLocation (Convert-Path ./publish) -PublishLocation (Convert-Path ./publish)
+        Publish-Module -Path ./Posh.AdaptiveCards -Repository TempRepo
+        Unregister-PSRepository -Name TempRepo
+        
+    - name: Create Pre-Release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: true
+        release_name: v${{ needs.build.outputs.CloudBuildNumber }}
+        tag_name: v${{ needs.build.outputs.CloudBuildNumber }}
+        body: ${{ needs.build.outputs.changelog }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        
+    - name: Upload packaged artifact
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: publish/Posh.AdaptiveCards.${{ needs.build.outputs.CloudBuildNumber }}.nupkg
+        asset_name: Posh.AdaptiveCards.${{ needs.build.outputs.CloudBuildNumber }}.nupkg
+        asset_content_type: application/zip
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    
+  publish:
+    name: Publish PowerShell Module
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: artifacts
+        path: Posh.AdaptiveCards
+    
+    - name: Publish Module
+      shell: pwsh
+      run: |
+        Publish-Module -Path ./Posh.AdaptiveCards -NuGetApiKey $env:APIKEY
+      env:
+        APIKEY: ${{ secrets.PS_NugetApiKey }}
+        
+  cleanup:
+    name: Cleanup Action
+    needs: [ create-preview-release, publish ]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Delete Artifact from Action
+      uses: parithon/delete-artifact@v1.0.0
+      with:
+        name: artifacts
+        failOnError: false    
