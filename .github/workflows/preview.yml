@@ -3,7 +3,7 @@ name: Preview Release
 on:
   push:
     branches: [ main ]
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
   build:
