@@ -47,7 +47,7 @@ jobs:
     - name: Generate Module Manifest
       shell: pwsh
       run: |
-        New-ModuleManifest -Path ./Posh.AdaptiveCards/bin/Release/Posh.AdaptiveCards/Posh.AdaptiveCards.psd1 -Guid 'b9718a3d-91c0-4004-84e1-3a0c642dcf07' -Author 'Anthony Conrad <parithon@outlook.com>' -Company 'Parithon' -RootModule 'Posh.AdaptiveCards.dll' -Description 'A PowerShell module which can be used to create AdaptiveCards to send to various clients. To develop an AdaptiveCard, you can use the individual cmdlets or go to https://adaptivecards.io/designer and design a template to format the card.' -ModuleVersion $env:NBGV_SimpleVersion -PowerShellVersion '5.1' -ProjectUri 'https://github.com/parithon/Posh.AdaptiveCards' -CmdletsToExport 'ConvertTo-AdaptiveCardPayload','Send-AdaptiveCard' -Prerelease $env:NBGV_PrereleaseVersion
+        New-ModuleManifest -Path ./Posh.AdaptiveCards/bin/Release/Posh.AdaptiveCards/Posh.AdaptiveCards.psd1 -Guid 'b9718a3d-91c0-4004-84e1-3a0c642dcf07' -Author 'Anthony Conrad <parithon@outlook.com>' -Company 'Parithon' -RootModule 'Posh.AdaptiveCards.dll' -Description 'A PowerShell module which can be used to create AdaptiveCards to send to various clients. To develop an AdaptiveCard, you can use the individual cmdlets or go to https://adaptivecards.io/designer and design a template to format the card.' -ModuleVersion $env:NBGV_SimpleVersion -PowerShellVersion '5.1' -ProjectUri 'https://github.com/parithon/Posh.AdaptiveCards' -CmdletsToExport 'ConvertTo-AdaptiveCardPayload','Send-AdaptiveCard' -Prerelease ($env:NBGV_PrereleaseVersion).Substring(1)
     - name: Upload module folder
       uses: actions/upload-artifact@v2
       with:
