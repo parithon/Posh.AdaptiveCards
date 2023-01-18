@@ -16,6 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleCards", "SampleCards"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Posh.AdaptiveCards.Tests", "Posh.AdaptiveCards.Tests\Posh.AdaptiveCards.Tests.csproj", "{82555043-CBC7-47D0-93F8-6F3CD85651F6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{45E59AA1-1BF6-4160-A09A-C60B86002F0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C90A3921-3982-4F88-BC0A-53A86FC1BFDC}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\preview.yml = .github\workflows\preview.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C90A3921-3982-4F88-BC0A-53A86FC1BFDC} = {45E59AA1-1BF6-4160-A09A-C60B86002F0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D3F4C36-DA24-4942-B67C-3DD237852C99}
